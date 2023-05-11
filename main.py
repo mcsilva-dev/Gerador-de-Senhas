@@ -1,42 +1,38 @@
 from random import randint, choice
 from math import trunc
 
-alfabeto = [
-  'a', 'b', 'c', 'd', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
-  'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
-]
-caracteres_especiais = ['!', '@', '#', '$', '%', '&']
+alfabeto = []
+
+for minusculas in range(97, 123):
+  alfabeto.append(minusculas)
+for maiusculas in range(65, 91):
+  alfabeto.append(maiusculas)
+
+caracteres_especiais = [33, 35, 36, 37, 38, 63, 64, 95, 45, 42]
 caracteres = int(input("Numero de caracteres: "))
-especiais = input("Caracteres especiais? [S/N]").strip().upper()[0]
+while True:
+  especiais = input("Caracteres especiais? [S/N]").strip().upper()[0]
+  if especiais in 'SN':
+    break
+  else:
+    print("Tente novamente. ", end="")
 maximo_especias = trunc(caracteres / 3)
 maximo_numeros = trunc(caracteres / 3)
-contador = 1
 senha_lista = []
 numeros = []
 
 while len(senha_lista) < caracteres:
-  aleatorio = randint(0, 2) == 0
+  aleatorio = randint(0, 2)
   numero = randint(0, 9)
-  letra = choice(alfabeto)
-  especial = choice(caracteres_especiais)
   if aleatorio == 0:
-    if randint(0, 1) == 0:
-      senha_lista.append(letra.upper())
-      alfabeto.pop(alfabeto.index(letra))
-    else:
-      senha_lista.append(letra)
-      alfabeto.pop(alfabeto.index(letra))
-    contador += 1
+    senha_lista.append(chr(choice(alfabeto)))
   elif aleatorio == 1 and maximo_especias > 0 and especiais == 'S':
-    senha_lista.append(especial)
-    caracteres_especiais.pop(caracteres_especiais.index(especial))
+    senha_lista.append(chr(choice(caracteres_especiais)))
     maximo_especias -= 1
-    contador += 1
   elif aleatorio == 2 and maximo_numeros > 0:
     if numero not in numeros:
       maximo_numeros -= 1
       senha_lista.append(str(numero))
-      contador += 1
     numeros.append(numero)
 senha = ''.join(senha_lista)
 
